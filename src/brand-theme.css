@@ -1,0 +1,868 @@
+@font-face {
+  font-family: "Caveat";
+  src: url("/fonts/Caveat-Variable.ttf") format("truetype");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  --brand: #bf4e22;
+  --brand-dark: #a94320;
+  --orange: var(--brand);
+  --orange-dark: var(--brand-dark);
+  --blue: var(--brand);
+  --blue-dark: var(--brand-dark);
+}
+.brisa-brand {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.brisa-brand > img {
+  display: block;
+  object-fit: contain;
+  max-width: none;
+}
+.logo-link {
+  margin-top: -9px;
+  margin-bottom: 21px;
+  margin-left: 9px;
+}
+.sidebar .logo-link .brisa-brand img {
+  width: 118px;
+  height: 53px;
+}
+.main-nav > button.active {
+  background: #fff0e6;
+  color: #cf713d;
+}
+.nav-count {
+  color: #cb8b60;
+  background: #f8e1cf;
+}
+.main-nav > button:hover {
+  background: #fff7ef;
+  color: #b87a4f;
+}
+.boards-nav > button.selected {
+  background: #faf2e9;
+  color: #a4825d;
+}
+.boards-nav > button:hover {
+  background: #fff8ef;
+}
+.team-callout {
+  background: linear-gradient(125deg, #fff3e6, #fff8ef);
+  border-color: #f3e5d3;
+}
+.team-callout > strong {
+  color: #aa875c;
+}
+.team-callout p {
+  color: #b29c7c;
+}
+.team-callout > button {
+  color: #be9361;
+  border-color: #f1e1cd;
+}
+.callout-sparkle {
+  color: #d2a16b;
+}
+.settings-link:hover {
+  color: var(--brand);
+}
+.board-tabs > button.active {
+  color: #c97a45;
+  border-bottom-color: #e3a16d;
+}
+.board-tabs > button:hover {
+  color: #bd8a60;
+}
+.board-heading-actions .button-invite {
+  background: #fff7ed;
+  border-color: #f2e5d4;
+  color: #b09470;
+}
+.new-badge {
+  background: #fff0df;
+  color: #c4a27a;
+}
+.filter-counter {
+  background: #fcebdc;
+  color: #b48d62;
+}
+.text-button.selected,
+.text-button:hover,
+.filter-active {
+  color: #c78d5e;
+}
+.toggle-row.enabled .toggle {
+  background: #db9b64;
+}
+.button-white:hover {
+  background: #fff9f1;
+  border-color: #ebd8bd;
+}
+.icon-button:hover {
+  background: #fff4e7;
+  color: #b9976e;
+}
+.menu-item:hover {
+  background: #fff5e9;
+  color: #b78b5b;
+}
+.search-result:hover,
+.notification-item:hover {
+  background: #fff7ed;
+}
+.column-name-input:focus {
+  border-color: #e0ae80 !important;
+}
+.task-card:hover {
+  border-color: #e6c7a2;
+  box-shadow: 0 5px 12px #9a733017;
+}
+.task-card:focus-visible {
+  outline-color: #e3b384;
+}
+.task-card.drop-before:before {
+  background: #dc9d6b;
+}
+.kanban-column.drop-target {
+  background: #fff5e9e6;
+  box-shadow: 0 0 0 2px #dba774;
+}
+.add-card-button:hover {
+  background: #f6ecdd;
+  color: #b39772;
+}
+.cover-options > button.selected,
+.cover-options > button:hover {
+  border-color: #dbad7c;
+}
+.comment-compose > div {
+  border-color: #eee2ce;
+}
+.checklist-progress i {
+  background: #d2ab7d;
+}
+.checklist-progress > div {
+  background: #f2ecdf;
+}
+.editor-side > button:hover,
+.editor-side > button.selected {
+  background: #fff2e4;
+  color: #bd966a;
+  border-color: #eedac0;
+}
+.editor-title > textarea::placeholder {
+  color: #b8ad99;
+}
+.editor-section h3 {
+  color: #9e8d70;
+}
+.editor-section h3 > svg {
+  color: #baa884;
+}
+.editor-side > button {
+  background: #fffcf6;
+  border-color: #eee5d6;
+  color: #a79b84;
+}
+.editor-side > button > svg {
+  color: #c1af8d;
+}
+.description-input,
+.comment p {
+  background: #fffcf7;
+  border-color: #f0e7d8;
+  color: #a29379;
+}
+.description-input::placeholder,
+.comment-compose textarea::placeholder {
+  color: #b8ad98;
+}
+.editor-inline-panel {
+  background: #fffcf6;
+  border-color: #efe2cd;
+}
+.editor-side-tip {
+  background: #fff8ee;
+  border-color: #f1e4cd;
+}
+.editor-side-tip p {
+  color: #b6a17f;
+}
+.editor-side-tip > span {
+  color: #d0b384;
+}
+.checklist-item > input:not([type="checkbox"]) {
+  color: #a59578;
+}
+.checklist-item.checked > input:not([type="checkbox"]) {
+  color: #c2b6a1;
+}
+.board-search > input {
+  color: #a28d73;
+}
+.board-search > input::placeholder {
+  color: #b2a18a;
+}
+.calendar-day.is-today {
+  background: #fff7ec;
+}
+.calendar-day.is-today > div > span {
+  background: #dba16c;
+}
+.calendar-event:hover {
+  background: #faeddb;
+}
+.stat-icon.blue {
+  background: #fff0e0;
+  color: #cea16e;
+}
+.stat-icon.purple {
+  background: #f6ece1;
+  color: #b9a080;
+}
+.dashboard-page {
+  background: #fcfaf6;
+}
+.board-tile:hover {
+  box-shadow: 0 8px 25px #9c794315;
+}
+.new-board-tile:hover {
+  background: #fff6e9;
+  border-color: #e2c8a2;
+}
+.new-board-tile > span {
+  background: #faf0df;
+  color: #c6ab82;
+}
+.modal-backdrop {
+  background: #443b2f65;
+}
+.toast {
+  border-color: #eee4d5;
+}
+.toast > button:not(.icon-button) {
+  color: #bc996d;
+}
+.dialog-icon {
+  background: #fff2e2;
+  color: #cfa06c;
+}
+.help-tip {
+  background: #fff8ed;
+  color: #c6a778;
+}
+.help-tip p {
+  color: #ad9a7c;
+}
+.shortcuts kbd {
+  color: #b19a78;
+  background: #fffcf5;
+  border-color: #eee4d3;
+}
+.global-search {
+  background: #fbf9f4;
+  border-color: #efebe2;
+}
+.auth-loading {
+  background: #fffcf7;
+  color: #bea37e;
+}
+.auth-loading > .brisa-brand {
+  margin-bottom: 8px;
+}
+.auth-loading > .brisa-brand > img {
+  width: 150px;
+  height: 66px;
+}
+.auth-form-icon {
+  background: #fff2e4;
+  border-color: #f5e3cc;
+  color: #d6a16f;
+}
+.auth-tabs {
+  background: #faf5eb;
+  border-color: #f1e7d6;
+}
+.auth-tabs button {
+  color: #b8a88b;
+}
+.auth-tabs button.active {
+  color: #c88e57;
+  box-shadow: 0 1px 6px #8e6a2a0a;
+}
+.auth-form-container .field-label {
+  color: #a08f73;
+}
+.auth-form-container input {
+  border-color: #ece4d6;
+  color: #9f896a;
+}
+.auth-form-container input::placeholder {
+  color: #bdb19c;
+}
+.auth-input-icon {
+  border-color: #ece4d6;
+  color: #c6b394;
+}
+.auth-input-icon:focus-within {
+  border-color: #d9ab7c;
+  box-shadow: 0 0 0 3px #ed713b0a;
+}
+.auth-input-icon > button {
+  color: #c0ad8e;
+}
+.auth-password-label > button {
+  color: #bc9c76;
+}
+.auth-password-hint {
+  color: #b8aa91;
+}
+.auth-form-description {
+  color: #aa9d86;
+}
+.auth-form-container h2 {
+  color: #74664e;
+}
+.auth-form-footer {
+  color: #beb098;
+}
+.auth-form-footer > span {
+  color: #c79969;
+  font-family: "Caveat";
+  font-size: 22px;
+}
+.auth-security {
+  color: #b7ad96;
+}
+.auth-equal-access {
+  color: #b4a78f;
+  line-height: 1.9;
+}
+.auth-back {
+  color: #b09a7a;
+}
+.auth-form-side {
+  position: relative;
+  padding-top: 75px;
+  background: #fffcf8;
+}
+.auth-home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: absolute;
+  left: 45px;
+  top: 36px;
+  font-size: 10px;
+  color: #baa98b;
+}
+.auth-home-link:hover {
+  color: #c78048;
+}
+.auth-story.auth-story-orange {
+  background: linear-gradient(150deg, #fcf1e2, #f8e5ce 80%, #f4d6b8);
+  padding: 34px 48px;
+  min-height: 100dvh;
+}
+.auth-story-orange > .auth-story-footer {
+  margin-top: auto;
+  color: #b69973;
+}
+.auth-orange-message {
+  margin-top: 37px;
+  position: relative;
+  z-index: 2;
+}
+.auth-orange-message .auth-eyebrow {
+  font-size: 7px;
+  letter-spacing: 1.4px;
+  color: #ba9d75;
+}
+.auth-orange-message h1 {
+  font-size: 35px;
+  letter-spacing: -1.4px;
+  line-height: 1.3;
+  color: #8f7450;
+  margin-top: 17px;
+}
+.auth-orange-message h1 em {
+  font-family: "Caveat";
+  font-style: normal;
+  color: #ca9360;
+  font-size: 45px;
+  line-height: 0.9;
+  font-weight: 650;
+}
+.auth-orange-message > p {
+  font-size: 11px;
+  line-height: 1.9;
+  color: #b29b77;
+  margin-top: 13px;
+}
+.auth-mascot-stage {
+  position: relative;
+  flex: 1;
+  min-height: 280px;
+  max-height: 470px;
+  margin: 9px -5px 0;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth-mascot-stage > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 430px;
+  object-fit: contain;
+  mix-blend-mode: normal;
+}
+.auth-mascot-circle {
+  position: absolute;
+  width: 90%;
+  height: 80%;
+  max-height: 380px;
+  border-radius: 50%;
+  background: #f1d8b8;
+  z-index: -1;
+}
+.auth-mascot-note {
+  position: absolute;
+  right: 5px;
+  top: 48px;
+  font-family: "Caveat";
+  font-size: 25px;
+  color: #c4a47b;
+  line-height: 1;
+  transform: rotate(7deg);
+}
+.hero-mascot {
+  mix-blend-mode: normal;
+}
+.trial-notice {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  background: #fff1df;
+  border-bottom: 1px solid #f3e0c4;
+  padding: 0 26px;
+  color: #b18e5b;
+  font-size: 9px;
+  line-height: 1.5;
+}
+.trial-notice > span {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+.trial-notice strong {
+  font-weight: 600;
+  color: #b3864f;
+}
+.trial-notice > span > svg {
+  color: #c3a476;
+}
+.trial-notice > a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 8px;
+  color: #c3a070;
+}
+.trial-notice > a:hover {
+  color: #ab7540;
+}
+.trial-layout > .app-shell {
+  height: calc(100dvh - 36px);
+  min-height: 0;
+}
+.trial-layout .kanban-column {
+  max-height: calc(100dvh - 390px);
+}
+.trial-layout .activity-panel {
+  top: 106px;
+}
+.trial-expired-page {
+  min-height: 100dvh;
+  background: radial-gradient(ellipse at 50% 45%, #fff7e8, #fffcf7 65%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+}
+.expired-brand {
+  align-self: flex-start;
+  margin: 0 20px;
+}
+.expired-brand .brisa-brand > img {
+  width: 127px;
+  height: 56px;
+}
+.trial-expired-card {
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  margin: auto 0;
+  padding: 30px 0;
+}
+.trial-expired-icon {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  border-radius: 20px;
+  background: #f9e9d2;
+  color: #d4ad77;
+  margin: 0 auto 26px;
+}
+.trial-expired-card > .welcome-eyebrow {
+  justify-content: center;
+  font-size: 7px;
+  letter-spacing: 1.3px;
+}
+.trial-expired-card h1 {
+  font-family: "Manrope";
+  font-size: 33px;
+  line-height: 1.35;
+  letter-spacing: -1.3px;
+  font-weight: 700;
+  color: #827154;
+  margin-top: 19px;
+}
+.trial-expired-card h1 em {
+  font-family: "Caveat";
+  color: #c88e57;
+  font-size: 45px;
+  font-style: normal;
+}
+.trial-expired-card > p {
+  max-width: 360px;
+  margin: 20px auto 0;
+  color: #ad9e83;
+  font-size: 12px;
+  line-height: 1.9;
+}
+.expired-next-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fffaf0;
+  border: 1px solid #eee0c8;
+  border-radius: 9px;
+  padding: 17px 20px;
+  text-align: left;
+  max-width: 370px;
+  margin: 25px auto;
+  color: #b29d77;
+  font-size: 11px;
+  line-height: 1.8;
+}
+.expired-next-step > svg {
+  margin-top: 3px;
+  color: #c6ac81;
+  width: 18px;
+}
+.trial-expired-card > small {
+  display: block;
+  font-size: 9px;
+  line-height: 1.8;
+  color: #bdb098;
+  max-width: 330px;
+  margin: 0 auto 22px;
+}
+.trial-expired-card > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 23px;
+  justify-content: center;
+}
+.expired-logout {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: #b8a380;
+}
+.expired-back {
+  font-size: 9px;
+  color: #bda98a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 25px;
+}
+@media (max-width: 1100px) {
+  .auth-story.auth-story-orange {
+    padding: 31px 32px;
+  }
+  .auth-orange-message {
+    margin-top: 36px;
+  }
+  .auth-orange-message h1 {
+    font-size: 30px;
+  }
+  .auth-orange-message h1 em {
+    font-size: 39px;
+  }
+  .auth-mascot-stage {
+    max-height: 425px;
+  }
+  .auth-mascot-stage > img {
+    max-height: 400px;
+  }
+  .auth-mascot-note {
+    font-size: 23px;
+    right: 0;
+    top: 55px;
+  }
+  .auth-orange-message .auth-eyebrow {
+    font-size: 6px;
+    letter-spacing: 1.1px;
+  }
+  .auth-home-link {
+    left: 32px;
+  }
+  .sidebar .logo-link .brisa-brand > img {
+    width: 113px;
+  }
+  .trial-notice {
+    padding: 0 22px;
+    font-size: 8px;
+  }
+}
+@media (max-width: 900px) {
+  .auth-story.auth-story-orange {
+    padding: 29px 27px;
+  }
+  .auth-orange-message h1 {
+    font-size: 27px;
+  }
+  .auth-orange-message h1 em {
+    font-size: 36px;
+  }
+  .auth-orange-message > p {
+    font-size: 10px;
+  }
+  .auth-mascot-stage {
+    min-height: 250px;
+    margin-top: 8px;
+  }
+  .auth-mascot-note {
+    font-size: 21px;
+    top: 51px;
+  }
+  .trial-layout .kanban-column {
+    max-height: calc(100dvh - 368px);
+  }
+  .trial-layout .activity-panel {
+    top: 98px;
+  }
+  .logo-link {
+    margin-bottom: 16px;
+  }
+  .sidebar .logo-link .brisa-brand > img {
+    width: 108px;
+    height: 49px;
+  }
+}
+@media (max-width: 720px) {
+  .auth-story.auth-story-orange {
+    display: none;
+  }
+  .auth-mobile-logo > .brisa-brand > img {
+    width: 115px;
+    height: 49px;
+  }
+  .auth-form-side {
+    padding: 28px 25px 22px;
+  }
+  .auth-mobile-logo {
+    margin-bottom: 35px;
+  }
+  .auth-home-link {
+    left: auto;
+    right: 25px;
+    top: 44px;
+    font-size: 9px;
+  }
+  .auth-form-container h2 {
+    color: #817154;
+  }
+  .auth-form-footer {
+    margin-top: 35px;
+  }
+  .auth-form-container {
+    margin-bottom: auto;
+  }
+}
+@media (max-width: 680px) {
+  .sidebar .logo-link .brisa-brand > img {
+    width: 119px;
+    height: 53px;
+  }
+  .logo-link {
+    margin-bottom: 21px;
+  }
+  .trial-notice {
+    padding: 0 13px;
+    height: 35px;
+    font-size: 8px;
+    gap: 8px;
+  }
+  .trial-notice > span {
+    gap: 5px;
+  }
+  .trial-notice > span > span {
+    font-size: 7px;
+  }
+  .trial-notice > span > svg {
+    width: 11px;
+  }
+  .trial-notice > a {
+    font-size: 0;
+    gap: 0;
+  }
+  .trial-notice > a > svg {
+    width: 13px;
+  }
+  .trial-layout > .app-shell {
+    height: calc(100dvh - 35px);
+  }
+  .trial-layout .kanban-column {
+    max-height: calc(100dvh - 340px);
+  }
+  .trial-layout .activity-panel {
+    top: 93px;
+  }
+  .expired-brand {
+    margin: 0 3px;
+  }
+  .trial-expired-page {
+    padding: 20px;
+  }
+  .trial-expired-card h1 {
+    font-size: 28px;
+    letter-spacing: -1px;
+  }
+  .trial-expired-card h1 em {
+    font-size: 37px;
+  }
+  .trial-expired-card > p {
+    font-size: 11px;
+  }
+  .trial-expired-card > .welcome-eyebrow {
+    font-size: 6px;
+  }
+  .expired-next-step {
+    font-size: 10px;
+    padding: 15px;
+  }
+  .trial-expired-card > div:last-child {
+    gap: 18px;
+  }
+  .trial-expired-card .welcome-button {
+    font-size: 11px;
+  }
+  .trial-expired-card > small {
+    font-size: 8px;
+  }
+}
+@media (max-height: 780px) and (min-width: 721px) {
+  .auth-story.auth-story-orange {
+    padding-top: 25px;
+    padding-bottom: 24px;
+  }
+  .auth-orange-message {
+    margin-top: 18px;
+  }
+  .auth-orange-message h1 {
+    font-size: 29px;
+  }
+  .auth-orange-message h1 em {
+    font-size: 38px;
+  }
+  .auth-orange-message > p {
+    font-size: 10px;
+  }
+  .auth-mascot-stage {
+    max-height: 330px;
+    min-height: 230px;
+    margin-top: 0;
+  }
+  .auth-mascot-stage > img {
+    max-height: 330px;
+  }
+  .auth-mascot-note {
+    font-size: 21px;
+    top: 36px;
+  }
+  .auth-form-side {
+    padding-top: 65px;
+    padding-bottom: 19px;
+  }
+  .auth-form-container .field-label {
+    margin-top: 13px;
+  }
+  .auth-form-description {
+    margin-bottom: 17px;
+  }
+  .auth-tabs {
+    margin-bottom: 17px;
+  }
+  .auth-form-icon {
+    margin-bottom: 15px;
+    height: 41px;
+    width: 41px;
+  }
+  .auth-form-container h2 {
+    font-size: 22px;
+  }
+  .auth-form-container .auth-submit {
+    margin-top: 20px;
+  }
+  .auth-equal-access {
+    font-size: 8px;
+    margin-top: 9px;
+  }
+  .auth-form-footer {
+    margin-top: 25px;
+  }
+  .auth-form-container input {
+    min-height: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .auth-security {
+    margin-top: 16px;
+  }
+}
+
+/* Reading contrast for form labels and project controls. */
+.auth-form-container .field-label {
+  color: #7e6d53;
+}
+.auth-form-container input {
+  color: #796950;
+}
+.auth-form-container h2 {
+  color: #665942;
+}
+.auth-form-description {
+  color: #8a7b63;
+}
+.auth-security,
+.auth-equal-access {
+  color: #938269;
+}
+.workspace-icon {
+  background: #fbecd6;
+  color: #b59a75;
+}

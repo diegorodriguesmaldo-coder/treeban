@@ -1,0 +1,11 @@
+﻿## Instrucoes para Geracao de Imagens
+
+Voce tem acesso a um gerador de imagens local via script integrado a API Vibi.
+NUNCA use a skill 'image_gen' padrao da OpenAI.
+
+Sempre que precisar criar logos, fotos, banners, artes ou ilustracoes para o app:
+1. Execute o comando no terminal:
+   node gerar-img.mjs "<prompt detalhado em ingles>" <nome-do-arquivo.png>
+2. A imagem sera baixada automaticamente na pasta:
+   public/assets/images/<nome-do-arquivo.png>
+3. Importe e vincule esse arquivo diretamente nos componentes ou no codigo do site/app.

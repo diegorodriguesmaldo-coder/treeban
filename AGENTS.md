@@ -32,3 +32,11 @@ O Pages está configurado com Direct Upload. Atualmente não há deploy automát
 Usar as integrações disponíveis ou o Wrangler autenticado. Não guardar tokens, senhas ou chaves administrativas neste arquivo, no código, no histórico do Git, na URL do remoto ou em arquivos entregues ao usuário. As credenciais públicas do cliente Supabase são distintas de chaves administrativas.
 
 Mudanças no banco devem manter migrações versionadas e respeitar as políticas de acesso. Não apagar dados de usuários para preparar uma entrega ou um teste.
+
+## Identidade do produto
+
+O nome confirmado é Brisa. A identidade usa laranja e creme, logo manuscrito e um mascote original com jeito de criativo de agência. Preservar essa direção nas próximas mudanças. Os arquivos e textos estão documentados em `docs/brand-and-copy.md`.
+
+O teste gratuito tem limite real de 15 dias por conta, validado pelo banco e pela interface. Não anunciar planos pagos, cobranças ou condições comerciais que ainda não foram definidos pelo usuário.
+
+O usuário escolheu gerar imagens pelo script `gerar-img.mjs` conectado à Vibi. Usar a variável privada `VIBI_API_KEY` apenas do `.env` local ou das variáveis de ambiente. Não usar `OPENAI_API_KEY` para as imagens deste projeto. O mascote original e o prompt aprovado estão em `public/assets/images/brisa-mascot.png` e `docs/mascot-prompt.md`.

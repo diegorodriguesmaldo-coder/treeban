@@ -1,3 +1,4 @@
+import Brand from "./Brand";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { createPortal } from "react-dom";
@@ -146,22 +147,6 @@ function AvatarGroup({
     </div>
   );
 }
-function Brand({ small = false }: { small?: boolean }) {
-  return (
-    <span className={`brand ${small ? "brand-small" : ""}`}>
-      <span className="brand-symbol">
-        <i />
-        <i />
-        <i />
-      </span>
-      {!small && (
-        <>
-          brisa<span className="brand-dot">.</span>
-        </>
-      )}
-    </span>
-  );
-}
 function Modal({
   children,
   onClose,
@@ -248,20 +233,20 @@ function Landscape() {
     >
       <defs>
         <linearGradient id="sky" x2="0" y2="1">
-          <stop stopColor="#e9eafb" />
-          <stop offset=".6" stopColor="#f1e8f1" />
-          <stop offset="1" stopColor="#f8e4d7" />
+          <stop stopColor="#fff0dc" />
+          <stop offset=".6" stopColor="#fae7cf" />
+          <stop offset="1" stopColor="#f3d5b5" />
         </linearGradient>
         <linearGradient id="mountain" x2="0" y2="1">
-          <stop stopColor="#c9c7e3" />
-          <stop offset="1" stopColor="#b0b9d8" />
+          <stop stopColor="#e6c3a0" />
+          <stop offset="1" stopColor="#d6b28d" />
         </linearGradient>
       </defs>
       <rect width="1400" height="700" fill="url(#sky)" />
       <circle cx="1090" cy="428" r="91" fill="#fff4df" opacity=".75" />
       <path
         d="M0 515 Q130 423 253 484 T475 483 Q560 407 651 468 Q757 524 843 452 Q939 351 1052 447 T1400 404 V700 H0Z"
-        fill="#d8cede"
+        fill="#ebcdb0"
       />
       <path
         d="M0 598 Q170 513 327 566 Q491 625 629 530 Q744 451 880 535 Q990 599 1125 488 Q1288 430 1400 519 V700H0Z"
@@ -270,7 +255,7 @@ function Landscape() {
       />
       <path
         d="M0 678 Q210 565 424 648 Q579 710 755 623 Q887 553 1064 610 Q1205 676 1400 587 V700H0Z"
-        fill="#9fabc8"
+        fill="#c7a580"
         opacity=".57"
       />
     </svg>
@@ -3763,7 +3748,7 @@ function InviteDialog({
 }) {
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
-  const link = location.origin + "/?signup=1";
+  const link = location.origin + "/cadastro";
   return (
     <Modal
       label="Convidar pessoas"

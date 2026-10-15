@@ -6,7 +6,6 @@ import {
   Check,
   Eye,
   EyeOff,
-  LayoutGrid,
   LoaderCircle,
   LockKeyhole,
   Mail,
@@ -18,19 +17,11 @@ import App from "./App";
 import { supabase } from "./supabase";
 import { useWorkspace } from "./cloud";
 import "./auth.css";
+import Brand from "./Brand";
+import Welcome from "./Welcome";
+import TrialGate from "./Trial";
 
-function Logo() {
-  return (
-    <span className="brand">
-      <span className="brand-symbol">
-        <i />
-        <i />
-        <i />
-      </span>
-      brisa<span className="brand-dot">.</span>
-    </span>
-  );
-}
+const Logo = Brand;
 function authError(error: { message: string; code?: string }) {
   if (error.message.includes("Invalid login credentials"))
     return "E-mail ou senha incorretos. Confira os dados e tente novamente.";
@@ -55,9 +46,15 @@ function authError(error: { message: string; code?: string }) {
   return "Não foi possível concluir. Confira os dados e tente novamente.";
 }
 
+function readRoute() {
+  return new URLSearchParams(location.search).has("signup")
+    ? "/cadastro"
+    : location.pathname.replace(/\/+$/u, "") || "/";
+}
 export default function AuthRoot() {
   const [session, setSession] = useState<Session | null>(null);
   const [ready, setReady] = useState(false);
+  const [route, setRoute] = useState(readRoute);
   const [recovery, setRecovery] = useState(
     () =>
       new URLSearchParams(location.hash.slice(1)).get("type") === "recovery",
@@ -67,8 +64,19 @@ export default function AuthRoot() {
       new URLSearchParams(location.hash.slice(1)).get("error_description") ||
       "",
   );
+  function navigate(path: string, replace = false) {
+    if (replace) history.replaceState(null, "", path);
+    else history.pushState(null, "", path);
+    setRoute(path);
+  }
   useEffect(() => {
     let active = true;
+    if (new URLSearchParams(location.search).has("signup")) {
+      history.replaceState(null, "", "/cadastro");
+      setRoute("/cadastro");
+    }
+    const pop = () => setRoute(readRoute());
+    window.addEventListener("popstate", pop);
     supabase.auth
       .getSession()
       .then(({ data, error }) => {
@@ -89,16 +97,25 @@ export default function AuthRoot() {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, next) => {
-      if (active) {
-        setSession(next);
-        setReady(true);
-        if (event === "PASSWORD_RECOVERY") setRecovery(true);
-        if (event === "SIGNED_OUT") setRecovery(false);
+      if (!active) return;
+      setSession(next);
+      setReady(true);
+      if (event === "PASSWORD_RECOVERY") setRecovery(true);
+      if (event === "SIGNED_OUT") {
+        setRecovery(false);
+        if (location.pathname === "/app") navigate("/login", true);
       }
+      if (
+        next &&
+        ["/login", "/cadastro"].includes(location.pathname) &&
+        event !== "PASSWORD_RECOVERY"
+      )
+        navigate("/app", true);
     });
     return () => {
       active = false;
       subscription.unsubscribe();
+      window.removeEventListener("popstate", pop);
     };
   }, []);
   if (!ready)
@@ -116,12 +133,25 @@ export default function AuthRoot() {
         initialError={initialError}
         onPasswordUpdated={() => {
           setRecovery(false);
-          history.replaceState(null, "", location.pathname);
+          navigate("/app", true);
         }}
       />
     );
-  if (!session) return <AuthScreen initialError={initialError} />;
-  return <ConnectedApp key={session.user.id} session={session} />;
+  if (route === "/") return <Welcome signedIn={!!session} />;
+  if (!session)
+    return (
+      <AuthScreen
+        key={route}
+        mode={route === "/cadastro" ? "signup" : "login"}
+        initialError={initialError}
+        onAuthenticated={() => navigate("/app", true)}
+      />
+    );
+  return (
+    <TrialGate key={session.user.id} session={session}>
+      {() => <ConnectedApp session={session} />}
+    </TrialGate>
+  );
 }
 
 function ConnectedApp({ session }: { session: Session }) {
@@ -186,10 +216,12 @@ function AuthScreen({
   mode: initialMode = "login",
   initialError = "",
   onPasswordUpdated,
+  onAuthenticated,
 }: {
-  mode?: "login" | "update";
+  mode?: "login" | "signup" | "update";
   initialError?: string;
   onPasswordUpdated?: () => void;
+  onAuthenticated?: () => void;
 }) {
   const [mode, setMode] = useState<"login" | "signup" | "forgot" | "update">(
     () =>
@@ -239,6 +271,7 @@ function AuthScreen({
           password,
         });
         if (error) throw error;
+        onAuthenticated?.();
       }
       if (mode === "signup") {
         const { data, error } = await supabase.auth.signUp({
@@ -250,9 +283,10 @@ function AuthScreen({
           },
         });
         if (error) throw error;
+        if (data.session) onAuthenticated?.();
         if (!data.session) {
           setMessage(
-            "Conta criada! Confira seu e-mail para confirmar o cadastro e depois entre com sua senha.",
+            "Conta criada. Confira seu e-mail para confirmar o cadastro e depois entre com sua senha.",
           );
           setPassword("");
           setConfirmPassword("");
@@ -281,89 +315,50 @@ function AuthScreen({
   }
   return (
     <main className="auth-page">
-      <section className="auth-story">
-        <a href="/" aria-label="Brisa">
+      <section className="auth-story auth-story-orange">
+        <a href="/" aria-label="Brisa, início">
           <Logo />
         </a>
-        <div className="auth-story-content">
+        <div className="auth-orange-message">
           <span className="auth-eyebrow">
             <Sparkles size={14} />
-            UM POUCO DE CLAREZA MUDA TUDO
+            SUAS IDEIAS ESTÃO EM BOA COMPANHIA
           </span>
           <h1>
-            Boas ideias merecem
+            Seu próximo projeto
             <br />
-            espaço para <em>acontecer.</em>
+            já tem <em>um lugar.</em>
           </h1>
           <p>
-            Seu time, suas ideias e os próximos passos.
+            Entre, abra um quadro e deixe a equipe
             <br />
-            Tudo em sintonia, de onde você estiver.
+            encontrar o próximo passo.
           </p>
-          <div className="auth-mini-board">
-            <div>
-              <span>
-                <i />
-                Para começar<b>2</b>
-              </span>
-              <article>
-                <small className="purple-label">Design</small>
-                <strong>Imaginar o próximo capítulo</strong>
-                <div>
-                  <span>✦</span>
-                  <span className="fake-avatar">AO</span>
-                </div>
-              </article>
-              <article>
-                <small className="blue-label">Estratégia</small>
-                <strong>Dar o primeiro passo</strong>
-                <div>
-                  <span>☑ 1/3</span>
-                  <span className="fake-avatar green">LS</span>
-                </div>
-              </article>
-            </div>
-            <div>
-              <span>
-                <i />
-                Em andamento<b>1</b>
-              </span>
-              <article className="auth-featured-card">
-                <img
-                  src="/covers/brand.svg"
-                  alt="Referências visuais para um projeto criativo"
-                />
-                <div>
-                  <small className="purple-label">Design</small>
-                  <strong>Criar algo que faz sentido</strong>
-                  <div>
-                    <span>☑ 3/5</span>
-                    <span className="fake-avatar peach">MC</span>
-                  </div>
-                </div>
-              </article>
-              <span className="auth-add-card">+ Adicionar uma boa ideia</span>
-            </div>
-          </div>
-          <div className="auth-perks">
-            <span>
-              <LayoutGrid size={15} />
-              Organize com liberdade
-            </span>
-            <span>
-              <Users size={15} />
-              Crie em equipe
-            </span>
-          </div>
+        </div>
+        <div className="auth-mascot-stage">
+          <span className="auth-mascot-circle" />
+          <img
+            src="/images/brisa-mascot.webp"
+            alt="Mascote do Brisa, um criativo de agência com roupa laranja e um sorriso descontraído"
+            width="500"
+            height="650"
+          />
+          <span className="auth-mascot-note">
+            Bora fazer
+            <br />
+            acontecer?
+          </span>
         </div>
         <div className="auth-story-footer">
-          <span>Um passo de cada vez.</span>
+          <span>Um passo de cada vez. Uma boa Brisa.</span>
           <Sparkles size={15} />
         </div>
-        <div className="auth-hill hill-one" />
-        <div className="auth-hill hill-two" />
       </section>
       <section className="auth-form-side">
+        <a className="auth-home-link" href="/">
+          <ArrowLeft size={14} />
+          Voltar ao Brisa
+        </a>
         <div className="auth-mobile-logo">
           <Logo />
         </div>
@@ -379,21 +374,21 @@ function AuthScreen({
           </span>
           <h2>
             {mode === "signup"
-              ? "Vamos criar coisas boas?"
+              ? "Seu primeiro passo é por aqui."
               : mode === "forgot"
                 ? "Um novo começo para sua senha."
                 : mode === "update"
                   ? "Escolha sua nova senha."
-                  : "Que bom ter você por aqui."}
+                  : "Boa te ver de novo."}
           </h2>
           <p className="auth-form-description">
             {mode === "signup"
-              ? "Crie sua conta e junte-se ao workspace da equipe."
+              ? "Crie sua conta e experimente o Brisa por 15 dias."
               : mode === "forgot"
                 ? "Informe seu e-mail para receber as instruções."
                 : mode === "update"
                   ? "Uma senha forte ajuda a guardar suas ideias."
-                  : "Entre na sua conta e dê vida às suas ideias."}
+                  : "Seu time e seus próximos passos estão esperando."}
           </p>
           {(mode === "login" || mode === "signup") && (
             <div
@@ -548,7 +543,7 @@ function AuthScreen({
               ) : (
                 <>
                   {mode === "signup"
-                    ? "Criar minha conta"
+                    ? "Começar meus 15 dias grátis"
                     : mode === "forgot"
                       ? "Enviar instruções"
                       : mode === "update"
@@ -579,7 +574,8 @@ function AuthScreen({
           </p>
           {mode === "signup" && (
             <p className="auth-equal-access">
-              Todos os membros têm o mesmo acesso aos quadros da equipe.
+              O teste começa no cadastro. Depois de 15 dias, o acesso aos
+              quadros é pausado. Os dados salvos permanecem guardados.
             </p>
           )}
         </div>

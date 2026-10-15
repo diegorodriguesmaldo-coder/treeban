@@ -1,0 +1,12 @@
+Use case: stylized-concept
+Asset type: brand mascot for the Brisa project management app, landing page hero and authentication screens.
+Primary request: Create an original, cool and approachable male marketing-agency creative as a polished 3D animated-feature character, with the expressive charm and production quality of a Disney/Pixar-style animated film.
+Subject: A young adult man with warm medium-brown skin, expressive dark eyebrows, a generous friendly smile and short, slightly tousled dark curly hair. Modern burnt-orange acetate glasses. A relaxed orange t-shirt, an open ivory short-sleeve overshirt, dark olive tapered trousers and ivory sneakers with orange details. Retro orange headphones rest around his neck. The styling feels like a contemporary Brazilian creative director, casual and confident.
+Pose: Full body, standing in a relaxed three-quarter pose facing slightly left toward the page copy. One foot slightly forward. One arm casually holds a closed slim ivory laptop against his side. The other hand makes a natural friendly two-finger greeting. Both shoes and the entire head are visible. Anatomically coherent hands.
+Style/medium: Premium stylized 3D character illustration, rounded expressive forms, subtle tactile fabric, matte materials, warm cinematic studio lighting, polished advertising art direction. The character is an adult with personality, not a baby or toy. Original facial design rather than any existing film character.
+Composition/framing: Single character centered on a portrait canvas, occupying about 85 percent of its height. Leave a clean safety margin around his hair, hands and shoes. No scenery, extra characters, props other than the laptop and headphones, or framing elements.
+Scene/backdrop: Uniform pure white background with a very subtle, soft contact shadow under the sneakers. The figure will be integrated into an orange and warm-cream website.
+Color palette: Burnt orange #ED713B, ivory, dark olive, warm natural skin tones. Orange is the primary brand accent.
+Text: No text, no lettering, no logos, no watermark.
+
+Execution: generated through the user-provided Vibi script with the model `gpt-image-2` and a portrait 1024x1536 canvas. The original transparent PNG is `public/assets/images/brisa-mascot.png`. The optimized WebP consumed by the site is `public/images/brisa-mascot.webp`. Run `node --env-file=.env gerar-img.mjs '@docs/mascot-prompt.md' brisa-mascot.png 1024x1536` to create another version, using a private `VIBI_API_KEY` in the local `.env`.
