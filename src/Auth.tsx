@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import {
   ArrowLeft,
@@ -141,10 +141,10 @@ export default function AuthRoot() {
   if (!session)
     return (
       <AuthScreen
-        key={route}
         mode={route === "/cadastro" ? "signup" : "login"}
         initialError={initialError}
         onAuthenticated={() => navigate("/app", true)}
+        onModeChange={(path) => navigate(path)}
       />
     );
   return (
@@ -217,18 +217,16 @@ function AuthScreen({
   initialError = "",
   onPasswordUpdated,
   onAuthenticated,
+  onModeChange,
 }: {
   mode?: "login" | "signup" | "update";
   initialError?: string;
   onPasswordUpdated?: () => void;
   onAuthenticated?: () => void;
+  onModeChange?: (path: "/login" | "/cadastro") => void;
 }) {
   const [mode, setMode] = useState<"login" | "signup" | "forgot" | "update">(
-    () =>
-      initialMode === "login" &&
-      new URLSearchParams(location.search).has("signup")
-        ? "signup"
-        : initialMode,
+    initialMode,
   );
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -238,12 +236,26 @@ function AuthScreen({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(initialError);
   const [message, setMessage] = useState("");
+  const routeMode = useRef(initialMode);
+  useEffect(() => {
+    if (routeMode.current === initialMode) return;
+    routeMode.current = initialMode;
+    setMode(initialMode);
+    setError("");
+    setMessage("");
+    setPassword("");
+    setConfirmPassword("");
+  }, [initialMode]);
   function switchMode(next: typeof mode) {
     setMode(next);
     setError("");
     setMessage("");
     setPassword("");
     setConfirmPassword("");
+    if (next === "login" || next === "signup") {
+      const path = next === "login" ? "/login" : "/cadastro";
+      if (readRoute() !== path) onModeChange?.(path);
+    }
   }
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -383,7 +395,7 @@ function AuthScreen({
           </h2>
           <p className="auth-form-description">
             {mode === "signup"
-              ? "Crie sua conta e experimente o Brisa por 15 dias."
+              ? "Crie sua conta e compartilhe os 15 dias de teste da equipe."
               : mode === "forgot"
                 ? "Informe seu e-mail para receber as instruções."
                 : mode === "update"
@@ -543,7 +555,7 @@ function AuthScreen({
               ) : (
                 <>
                   {mode === "signup"
-                    ? "Começar meus 15 dias grátis"
+                    ? "Criar minha conta"
                     : mode === "forgot"
                       ? "Enviar instruções"
                       : mode === "update"
@@ -574,8 +586,9 @@ function AuthScreen({
           </p>
           {mode === "signup" && (
             <p className="auth-equal-access">
-              O teste começa no cadastro. Depois de 15 dias, o acesso aos
-              quadros é pausado. Os dados salvos permanecem guardados.
+              O teste começa com a ativação do espaço da equipe. Novos membros
+              compartilham o tempo restante; os dados salvos permanecem
+              guardados após o prazo.
             </p>
           )}
         </div>

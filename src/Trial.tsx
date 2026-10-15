@@ -55,8 +55,7 @@ export default function TrialGate({
         {
           event: "UPDATE",
           schema: "public",
-          table: "profiles",
-          filter: `id=eq.${session.user.id}`,
+          table: "workspace_trials",
         },
         onFocus,
       )

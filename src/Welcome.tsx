@@ -80,11 +80,11 @@ const demoTasks = [
 const questions = [
   {
     q: "Como funcionam os 15 dias grátis?",
-    a: "O período começa quando você cria sua conta. Você pode usar os quadros e os recursos do Brisa durante 15 dias. Ao final, o acesso aos quadros é pausado. Os dados já salvos permanecem guardados e não há cobrança automática.",
+    a: "O teste começa quando o espaço da equipe é ativado e dura 15 dias para todos os membros. Quem entrar depois usa o tempo restante. Ao final, o acesso aos quadros é pausado. Os dados salvos permanecem guardados e não há cobrança automática.",
   },
   {
     q: "Preciso cadastrar um cartão?",
-    a: "Seu cadastro pede apenas nome, e-mail e senha. O teste de 15 dias começa com a criação da conta.",
+    a: "Seu cadastro pede apenas nome, e-mail e senha. Você entra no mesmo espaço e compartilha o prazo de teste da equipe.",
   },
   {
     q: "Posso deixar o quadro do meu jeito?",
@@ -199,7 +199,7 @@ export default function Welcome({ signedIn = false }: { signedIn?: boolean }) {
             </p>
             <div className="hero-cta">
               <a className="welcome-button orange large" href={signup}>
-                {signedIn ? "Abrir meu espaço" : "Começar meus 15 dias grátis"}
+                {signedIn ? "Abrir meu espaço" : "Criar minha conta"}
                 <ArrowRight size={18} />
               </a>
               <a className="hero-explore" href="#por-dentro">
@@ -688,12 +688,12 @@ export default function Welcome({ signedIn = false }: { signedIn?: boolean }) {
               veja como o Brisa cabe no dia da equipe.
             </p>
             <a className="welcome-button white large" href={signup}>
-              Quero meus 15 dias grátis
+              Criar minha conta
               <ArrowRight size={18} />
             </a>
             <span className="trial-fine-print">
-              <ShieldCheck size={14} />
-              Você começa com nome, e-mail e senha.
+              <ShieldCheck size={14} />O teste de 15 dias é compartilhado pela
+              equipe.
             </span>
           </div>
         </section>
@@ -733,10 +733,10 @@ export default function Welcome({ signedIn = false }: { signedIn?: boolean }) {
             <em>próximo grande projeto.</em>
           </h2>
           <a className="welcome-button orange large" href={signup}>
-            Começar meus 15 dias grátis
+            Criar minha conta
             <ArrowRight size={18} />
           </a>
-          <p>Seu teste de 15 dias começa no cadastro.</p>
+          <p>Os 15 dias começam com a ativação do espaço da equipe.</p>
         </section>
       </main>
       <footer className="welcome-footer">

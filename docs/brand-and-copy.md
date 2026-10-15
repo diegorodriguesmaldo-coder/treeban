@@ -27,7 +27,7 @@
 
 Organize projetos em quadros, distribua as tarefas e acompanhe cada entrega. Sua equipe encontra o próximo passo no mesmo lugar.
 
-Chamada principal: **Começar meus 15 dias grátis**.
+Chamada principal: **Criar minha conta**.
 
 Chamadas secundárias: **Dar uma olhada**, **Entrar** e **Criar minha conta**.
 
@@ -43,7 +43,7 @@ As mensagens se apoiam em recursos já implementados. Não há depoimentos, núm
 
 ## Oferta e acesso
 
-O usuário autorizou um limite real de 15 dias. O período é individual e começa no cadastro. Para as contas existentes, o período começa com a aplicação da migração `brisa_fifteen_day_trial`.
+O usuário autorizou um limite real de 15 dias. O período pertence ao workspace compartilhado e começa com a ativação desse espaço. Novos membros usam apenas o prazo restante. A migração `shared_workspace_trial` preserva o vencimento mais antigo do período anterior por conta.
 
 Ao vencer, o acesso aos quadros é pausado no banco por RLS e na interface. Os dados salvos continuam no workspace. A própria conta não pode alterar o início nem o fim do teste. O cadastro não coleta cartão e não existe cobrança automática. O próximo plano comercial ainda não foi definido; a tela de vencimento orienta a pessoa a conversar com o responsável pelo Brisa na equipe.
 
@@ -51,7 +51,7 @@ Ao vencer, o acesso aos quadros é pausado no banco por RLS e na interface. Os d
 
 - `/`: boas-vindas, inclusive para pessoas já autenticadas.
 - `/login`: entrada e recuperação de senha.
-- `/cadastro`: criação de conta e início do período de teste.
+- `/cadastro`: criação de conta e acesso ao período de teste da equipe.
 - `/app`: workspace protegido por autenticação e verificação do período de teste.
 - `/?signup=1`: compatibilidade com links antigos; encaminha para `/cadastro`.
 

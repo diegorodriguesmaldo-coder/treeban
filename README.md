@@ -21,7 +21,7 @@ As duas variáveis de `.env.example` são públicas e já têm os valores do pro
 ## Funcionalidades
 
 - Página de boas-vindas com identidade laranja, logo manuscrito, prévia interativa e acessos a login e cadastro.
-- Teste gratuito de 15 dias por conta, com bloqueio de acesso aos quadros ao vencer e preservação dos dados salvos. O prazo não pode ser estendido pelo próprio usuário.
+- Teste gratuito de 15 dias por workspace compartilhado, com bloqueio de acesso aos quadros ao vencer e preservação dos dados salvos. Novas contas compartilham o prazo restante.
 - Login por e-mail e senha, criação de contas na própria tela de acesso, recuperação de senha e logout.
 - Um workspace compartilhado. Todos os usuários cadastrados têm exatamente o mesmo acesso aos quadros. Não há perfis de administrador ou níveis de permissão.
 - Novos usuários entram automaticamente na equipe. O botão Convidar copia o link de cadastro; não envia convites por e-mail.
@@ -53,7 +53,7 @@ Os anexos de até 800 KB são guardados como dados no documento e sincronizados.
 
 O navegador guarda a sessão e um rascunho pendente por usuário quando necessário. O banco é a fonte dos dados compartilhados. Antes de sair, o app verifica se há alterações pendentes de sincronização.
 
-As colunas `profiles.trial_started_at` e `profiles.trial_ends_at` guardam o período de teste. A função `get_trial_status` devolve a situação da conta usando o relógio do servidor. As políticas RLS impedem leitura e gravação no workspace depois do prazo. As contas que já existiam receberam 15 dias a partir da aplicação da migração. Não existe integração de pagamento nem cobrança automática.
+A tabela `workspace_trials` guarda o período de teste do workspace. A função `get_trial_status` devolve o prazo compartilhado usando o relógio do servidor. As políticas RLS impedem leitura e gravação no workspace depois do vencimento, mesmo que uma nova conta seja criada. A migração preserva o prazo mais antigo já concedido aos membros existentes. Não existe integração de pagamento nem cobrança automática.
 
 ## Identidade e navegação
 
