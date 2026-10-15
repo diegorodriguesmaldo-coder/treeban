@@ -71,6 +71,12 @@ export class WorkspaceSync {
     return (data as Profile[]).map(profileMember);
   }
   async start() {
+    try {
+      this.activeId =
+        localStorage.getItem(`brisa-active-board:${this.userId}`) || "";
+    } catch {
+      /* Navigation still works if browser preferences are unavailable. */
+    }
     const [row, members] = await Promise.all([
       this.fetchRow(),
       this.profiles(),
@@ -119,6 +125,11 @@ export class WorkspaceSync {
   }
   receive(next: State) {
     this.activeId = next.activeBoardId;
+    try {
+      localStorage.setItem(`brisa-active-board:${this.userId}`, this.activeId);
+    } catch {
+      /* This preference does not affect cloud persistence. */
+    }
     const value = canonical(next);
     if (same(value, this.local)) return;
     this.local = value;

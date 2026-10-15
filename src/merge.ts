@@ -1,4 +1,4 @@
-import type { Card, State } from './data';
+import type { Card, State } from "./data";
 type Entity = Record<string, unknown> & { id: string };
 const equal = (a: unknown, b: unknown) =>
   JSON.stringify(a) === JSON.stringify(b);
@@ -61,22 +61,60 @@ export function mergeChanges<T>(base: T, local: T, remote: T): T {
 }
 
 /** Resolve a card's content and destination together when it moves during an edit. */
-export function mergeWorkspace(base:State,local:State,remote:State):State {
-  const result=structuredClone(mergeChanges(base,local,remote));
-  const index=(state:State)=>new Map(state.boards.flatMap(b=>b.columns.flatMap(c=>c.cards.map(card=>[card.id,{card,columnId:c.id,boardId:b.id}] as const))));
-  const b=index(base),l=index(local),r=index(remote),merged=new Map<string,{card:Card;columnId:string;boardId:string}>();
-  for(const id of new Set([...l.keys(),...r.keys()])){
-    const before=b.get(id),mine=l.get(id),theirs=r.get(id);
-    if(before&&(!mine||!theirs))continue; // Deletion wins over editing or moving an existing card.
-    if(mine&&theirs&&before){
-      const locallyMoved=mine.columnId!==before.columnId||mine.boardId!==before.boardId;
-      merged.set(id,{...(locallyMoved?mine:theirs),card:mergeChanges(before.card,mine.card,theirs.card)});
-    }else if(mine||theirs)merged.set(id,(mine||theirs)!);
+export function mergeWorkspace(
+  base: State,
+  local: State,
+  remote: State,
+): State {
+  const result = structuredClone(mergeChanges(base, local, remote));
+  const index = (state: State) =>
+    new Map(
+      state.boards.flatMap((b) =>
+        b.columns.flatMap((c) =>
+          c.cards.map(
+            (card) =>
+              [card.id, { card, columnId: c.id, boardId: b.id }] as const,
+          ),
+        ),
+      ),
+    );
+  const b = index(base),
+    l = index(local),
+    r = index(remote),
+    merged = new Map<
+      string,
+      { card: Card; columnId: string; boardId: string }
+    >();
+  for (const id of new Set([...l.keys(), ...r.keys()])) {
+    const before = b.get(id),
+      mine = l.get(id),
+      theirs = r.get(id);
+    if (before && (!mine || !theirs)) continue; // Deletion wins over editing or moving an existing card.
+    if (mine && theirs && before) {
+      const locallyMoved =
+        mine.columnId !== before.columnId || mine.boardId !== before.boardId;
+      merged.set(id, {
+        ...(locallyMoved ? mine : theirs),
+        card: mergeChanges(before.card, mine.card, theirs.card),
+      });
+    } else if (mine || theirs) merged.set(id, (mine || theirs)!);
   }
-  for(const board of result.boards)for(const column of board.columns){
-    column.cards=column.cards.filter(card=>{const target=merged.get(card.id);return target?.boardId===board.id&&target.columnId===column.id;}).map(card=>merged.get(card.id)!.card);
-    const present=new Set(column.cards.map(c=>c.id));
-    for(const [id,item] of merged)if(item.boardId===board.id&&item.columnId===column.id&&!present.has(id))column.cards.push(item.card);
-  }
+  for (const board of result.boards)
+    for (const column of board.columns) {
+      column.cards = column.cards
+        .filter((card) => {
+          const target = merged.get(card.id);
+          return target?.boardId === board.id && target.columnId === column.id;
+        })
+        .map((card) => merged.get(card.id)!.card);
+      const present = new Set(column.cards.map((c) => c.id));
+      for (const [id, item] of merged)
+        if (
+          item.boardId === board.id &&
+          item.columnId === column.id &&
+          !present.has(id)
+        )
+          column.cards.push(item.card);
+    }
   return result;
 }

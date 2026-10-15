@@ -69,7 +69,7 @@ import {
 } from "./data";
 import type { Board, Card, Column, Member, State } from "./data";
 import type { SyncStatus } from "./cloud";
-import { mergeChanges, mergeWorkspace } from './merge';
+import { mergeChanges, mergeWorkspace } from "./merge";
 
 type CardLocation = { boardId: string; columnId: string; cardId?: string };
 type Filters = { labels: string[]; members: string[]; due: string };
@@ -375,7 +375,7 @@ export default function App({
         message,
         undo
           ? () => {
-              const restored=mergeWorkspace(next,previous,stateRef.current);
+              const restored = mergeWorkspace(next, previous, stateRef.current);
               stateRef.current = restored;
               setState(restored);
               notify("Ação desfeita.");
@@ -478,11 +478,13 @@ export default function App({
     return () => window.removeEventListener("keydown", shortcuts);
   }, [board.id, board.columns, cardModal, dialog, confirm]);
 
-  function saveCard(draft: Card, location: CardLocation, initial?:Card) {
+  function saveCard(draft: Card, location: CardLocation, initial?: Card) {
     const b = stateRef.current.boards.find((b) => b.id === location.boardId);
     if (!b) return;
-    const current=b.columns.flatMap(c=>c.cards).find(k=>k.id===draft.id);
-    if(initial&&current)draft=mergeChanges(initial,draft,current);
+    const current = b.columns
+      .flatMap((c) => c.cards)
+      .find((k) => k.id === draft.id);
+    if (initial && current) draft = mergeChanges(initial, draft, current);
     const exists = b.columns.some((c) =>
       c.cards.some((k) => k.id === draft.id),
     );
@@ -2284,7 +2286,7 @@ export default function App({
                     : syncStatus === "saving"
                       ? "Salvando alterações..."
                       : syncStatus === "offline"
-                        ? "Offline · alterações protegidas"
+                        ? "Offline · sincronização pendente"
                         : "Sincronização pendente"}
                 </button>
                 <span>
@@ -2867,7 +2869,7 @@ function CardEditor({
   state: State;
   location: CardLocation;
   onClose: () => void;
-  onSave: (card: Card, location: CardLocation, initial?:Card) => void;
+  onSave: (card: Card, location: CardLocation, initial?: Card) => void;
   onLabelCreate: (label: State["labels"][number]) => void;
 }) {
   const board = state.boards.find((b) => b.id === location.boardId)!;
