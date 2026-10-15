@@ -69,4 +69,8 @@ npx wrangler pages deploy dist --project-name brisa-workspace --branch main
 
 O projeto Pages usa Direct Upload. Ele não depende de uma sessão local para servir o site. O repositório contém o código-fonte e as migrações; uma nova publicação pode ser feita pelo comando acima com uma conta Cloudflare autenticada. O GitHub não dispara publicações automáticas nesta configuração.
 
+### Regra permanente de entrega
+
+Toda atualização feita pelo agente deve ser enviada ao `main` deste repositório, publicada no Cloudflare Pages e verificada no site de produção antes de ser considerada entregue. O usuário revisa a versão online, sem depender de arquivos locais. O procedimento e os destinos estão registrados em `AGENTS.md`.
+
 Capas e paisagem são SVGs locais. A interface usa DM Sans e Manrope, com alternativas sans-serif se as fontes externas não estiverem disponíveis.
