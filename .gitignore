@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.npm-cache/
+.qa*
+*.tsbuildinfo
+
+.env
+.env.local
+.env.*.local
+.dev.vars
+.wrangler/
+supabase/.temp/
