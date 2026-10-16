@@ -71,6 +71,7 @@ import {
 import type { Board, Card, Column, Member, State } from "./data";
 import type { SyncStatus } from "./cloud";
 import { mergeChanges, mergeWorkspace } from "./merge";
+import OnboardingTour from "./OnboardingTour";
 
 type CardLocation = { boardId: string; columnId: string; cardId?: string };
 type Filters = { labels: string[]; members: string[]; due: string };
@@ -267,6 +268,8 @@ export default function App({
   onStateChange,
   syncStatus,
   userId,
+  onboardingDone,
+  onCompleteOnboarding,
   onSignOut,
   onRetrySync,
 }: {
@@ -274,6 +277,8 @@ export default function App({
   onStateChange: (state: State) => void;
   syncStatus: SyncStatus;
   userId: string;
+  onboardingDone: boolean;
+  onCompleteOnboarding: () => Promise<boolean>;
   onSignOut: () => void;
   onRetrySync: () => void;
 }) {
@@ -287,6 +292,9 @@ export default function App({
   stateRef.current = state;
   const [section, setSection] = useState("board");
   const [view, setView] = useState("board");
+  const [tourStep, setTourStep] = useState<number | null>(() =>
+    onboardingDone ? null : 0,
+  );
   const [menu, setMenu] = useState<string | null>(null);
   const [cardMenuPosition, setCardMenuPosition] = useState({ left: 0, top: 0 });
   const [cardModal, setCardModal] = useState<CardLocation | null>(null);
@@ -332,6 +340,31 @@ export default function App({
   const boardCards = board.columns.flatMap((c) =>
     c.cards.filter((k) => !k.archived).map((card) => ({ card, column: c })),
   );
+  function finishTour(openCard = false) {
+    setTourStep(null);
+    void onCompleteOnboarding()
+      .then((saved) => {
+        if (!saved)
+          setToast({
+            message:
+              "Apresentação concluída neste dispositivo. A sincronização com sua conta será tentada novamente no próximo acesso.",
+          });
+      })
+      .catch(() =>
+        setToast({ message: "Apresentação salva neste dispositivo." }),
+      );
+    if (openCard && board.columns[0]) {
+      setCardModal({ boardId: board.id, columnId: board.columns[0].id });
+    }
+  }
+  function replayTour() {
+    setDialog(null);
+    setMenu(null);
+    setSection("board");
+    setView("board");
+    setSidebarOpen(false);
+    setTourStep(0);
+  }
   const completedColumn = getDoneColumn(board);
   const completedCount =
     completedColumn?.cards.filter((c) => !c.archived).length || 0;
@@ -1256,6 +1289,7 @@ export default function App({
                     limit={4}
                   />
                   <button
+                    data-tour="team"
                     className="button button-invite"
                     onClick={() => setDialog("invite")}
                   >
@@ -1424,6 +1458,7 @@ export default function App({
               </div>
               <div className="board-tabs-row">
                 <div
+                  data-tour="views"
                   className="board-tabs"
                   role="tablist"
                   aria-label="Visualização do quadro"
@@ -1659,6 +1694,11 @@ export default function App({
                         aria-label={`Coluna ${column.name}`}
                       >
                         <div
+                          data-tour={
+                            column.id === board.columns[0]?.id
+                              ? "column"
+                              : undefined
+                          }
                           className="column-header"
                           draggable={editingColumn !== column.id}
                           onDragStart={(e) => {
@@ -1970,6 +2010,11 @@ export default function App({
                           )}
                         </div>
                         <button
+                          data-tour={
+                            column.id === board.columns[0]?.id
+                              ? "add-card"
+                              : undefined
+                          }
                           className="add-card-button"
                           onClick={() =>
                             setCardModal({
@@ -2676,6 +2721,13 @@ export default function App({
             configurações.
           </p>
           <button
+            className="button button-white full-width"
+            onClick={replayTour}
+          >
+            <Sparkles size={16} />
+            Rever apresentação
+          </button>
+          <button
             className="button button-primary full-width"
             onClick={() => setDialog(null)}
           >
@@ -2837,6 +2889,15 @@ export default function App({
             onClick={() => setToast(null)}
           />
         </div>
+      )}
+      {tourStep !== null && !dialog && !cardModal && !confirm && (
+        <OnboardingTour
+          step={tourStep}
+          onStepChange={setTourStep}
+          onClose={() => finishTour()}
+          onCreateCard={() => finishTour(true)}
+          canCreateCard={board.columns.length > 0}
+        />
       )}
     </div>
   );

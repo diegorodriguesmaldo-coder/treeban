@@ -9,5 +9,6 @@ dist/
 .env.*.local
 .dev.vars
 .wrangler/
+.brisa-local/
 supabase/.temp/
 brisa-projeto.zip

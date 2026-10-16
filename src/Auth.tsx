@@ -157,6 +157,25 @@ export default function AuthRoot() {
 function ConnectedApp({ session }: { session: Session }) {
   const cloud = useWorkspace(session.user);
   const [logoutError, setLogoutError] = useState("");
+  const [onboardingDone, setOnboardingDone] = useState(() => {
+    try {
+      return (
+        session.user.user_metadata?.brisa_onboarding_v1 === true ||
+        localStorage.getItem(`brisa-onboarding-v1:${session.user.id}`) ===
+          "done"
+      );
+    } catch {
+      return session.user.user_metadata?.brisa_onboarding_v1 === true;
+    }
+  });
+  const retryOnMount = useRef(
+    onboardingDone && session.user.user_metadata?.brisa_onboarding_v1 !== true,
+  );
+  useEffect(() => {
+    if (!retryOnMount.current) return;
+    retryOnMount.current = false;
+    void supabase.auth.updateUser({ data: { brisa_onboarding_v1: true } });
+  }, []);
   if (!cloud.state)
     return (
       <div className="auth-loading">
@@ -192,6 +211,18 @@ function ConnectedApp({ session }: { session: Session }) {
     const { error } = await supabase.auth.signOut();
     if (error) setLogoutError("Não foi possível sair. Tente novamente.");
   }
+  async function completeOnboarding() {
+    setOnboardingDone(true);
+    try {
+      localStorage.setItem(`brisa-onboarding-v1:${session.user.id}`, "done");
+    } catch {
+      // Account metadata still saves completion when local storage is unavailable.
+    }
+    const { error } = await supabase.auth.updateUser({
+      data: { brisa_onboarding_v1: true },
+    });
+    return !error;
+  }
   return (
     <>
       {logoutError && (
@@ -205,6 +236,8 @@ function ConnectedApp({ session }: { session: Session }) {
         onStateChange={cloud.change}
         syncStatus={cloud.status}
         userId={session.user.id}
+        onboardingDone={onboardingDone}
+        onCompleteOnboarding={completeOnboarding}
         onSignOut={() => void logout()}
         onRetrySync={cloud.retry}
       />
